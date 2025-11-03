@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    body{
+        background-color: rgb(10,10,10);
+        height: 100vh;
+        margin: 0px;
+        overflow: hidden;
+    }
+
+    .image {
+        width: 50vmin;
+        position: absolute;
+        transform: translate(-50%, -50%);
+    }
+
+    .image[data-status="inactive"] {
+        display: none;
+    }
+
+    .image[data-status="active"] {
+        display: block;
+    }
+</style>
+</head>
+
+<img class="image" data-index="0" data-status="inactive" src="images/photo1.JPEG"/>
+<img class="image" data-index="1" data-status="inactive" src="images/photo2.JPEG"/>
+<img class="image" data-index="2" data-status="inactive" src="images/photo3.JPEG"/>
+<img class="image" data-index="3" data-status="inactive" src="images/photo4.JPEG"/>
+<img class="image" data-index="4" data-status="inactive" src="images/photo5.JPEG"/>
+<img class="image" data-index="5" data-status="inactive" src="images/photo6.JPEG"/>
+
+<script>
+    const images = document.getElementByClassName("image");
+
+    let globalIndex = 0,
+        last = {x:0, y:0};
+
+    const activate = image => (image, x, y) => {
+        image.style.left = '${x}px';
+        image.style.top = '${y}px';
+
+        image.dataset.status = "active";
+
+        last = {x,y};
+    }
+
+    const distanceFromLast = (x,y) => {
+        return Math.hypot(x - last.x, y - last.y);
+    }
+
+    window.onmousemove = e => {
+        if(distanceFromLast(e.clientX, e.clientY) > 100) {
+
+        
+        const lead = images[globalIndex % images.length];
+            tail =  images[(globalIndex - 5) % images.length];
+
+        activate(lead, e.clientX, e.clientY);
+        if(tail) tail.dataset.status = "inactive";
+
+        globalIndex++;
+        }
+    }
+</script>
+</html>
