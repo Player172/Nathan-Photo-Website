@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+     /* Header */  
+    header {
+        position: fixed;
+        top: 30px;
+        left: 40px;
+        z-index: 1000;
+    }
+
+    .nav-stack {
+        position: relative;
+        width: fit-content;
+    }
+
+    .nav-btn {
+        padding: 8px 24px;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(20px);
+        border: 1.5px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50px;
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        display: block;
+    }
+
+    .nav-btn:hover {
+        background: rgba(255, 255, 255, 0.25);
+        border-color: rgba(255, 255, 255, 0.5);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .nav-btn:first-child {
+        position: relative;
+        z-index: 2;
+        width: fit-content;
+    }
+
+    .nav-btn:last-child {
+        position: absolute;
+        top: 0;
+        left: 20px;
+        z-index: 1;
+        transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .nav-stack:hover .nav-btn:last-child {
+        transform: translateX(90px);
+    }
+
+    /* About */  
+    body { 
+    background-color: rgb(10,10,10);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    }
+
+    .line { 
+        display: flex; 
+        justify-content: space-between; 
+    } 
+
+    p { 
+        color: white; 
+        font-size: 6vw; 
+        font-family: "Rubik", sans-serif; 
+        margin: 0rem;
+        text-transform: uppercase;
+    }
+
+    a {
+    text-decoration: none;
+    color: inherit;
+    }
+    
+    #text:has(.fancy:hover) .word:not(.fancy:hover) {
+        opacity: 0.2;
+    }
+    
+    .fancy > .letter {
+        display: inline-block;
+        transition: transform 0.3s ease;
+    }
+
+    .about-container {
+        max-width: 800px;
+        width: 100%;
+        padding: 60px 40px;
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <div class="nav-stack">
+        <a href="index.html" class="nav-btn">Home</a>
+        <a href="about.html" class="nav-btn">About</a>
+    </div>
+</header>
+
+<div class="about-container">   
+    <div id="text">
+    <div class="line">
+        <p class="word">Nathan</p>
+        <p class="word">Ehrlich</p>
+    </div>
+    <div class="line">
+        <p class="word">Pro</p>
+        <p class="word">Photo</p>
+        <p class="word">Guy</p>
+    </div>
+    <div class="line">
+        <a href="https://www.instagram.com/nathane.photo/" target="_blank">
+            <p class="word fancy">>Insta</p>
+        </a>
+    </div>
+    <div class="line">
+        <a href="https://nathanehrlich.level.press/" target="_blank">
+            <p class="word fancy">>Buy&nbsp;Prints</p>
+        </a>   
+    </div>
+    </div>
+    </div>
+</div>
+
+<script>
+
+const enhance = element => {
+    const text = element.innerText.split("");
+    element.innerText = "";
+
+    text.forEach((letter, index) => {
+        const span = document.createElement("span");
+        span.className = "letter";
+        span.innerText = letter;
+        
+        // Store random values as data attributes
+        const randomX = (Math.random() - 0.5) * 100;
+        const randomY = (Math.random() - 0.5) * 100;
+        const randomRotate = (Math.random() - 0.5) * 30;
+        
+        span.dataset.x = randomX;
+        span.dataset.y = randomY;
+        span.dataset.rotate = randomRotate;
+        
+        element.appendChild(span);
+    });
+    
+    // Hover effect on parent
+    element.addEventListener('mouseenter', () => {
+        element.querySelectorAll('.letter').forEach(letter => {
+            letter.style.transform = `translate(${letter.dataset.x}%, ${letter.dataset.y}%) rotate(${letter.dataset.rotate}deg)`;
+        });
+    });
+    
+    element.addEventListener('mouseleave', () => {
+        element.querySelectorAll('.letter').forEach(letter => {
+            letter.style.transform = 'translate(0%, 0%) rotate(0deg)';
+        });
+    });
+}
+
+// Apply to all fancy elements
+document.querySelectorAll('.fancy').forEach(enhance);
+</script>
+</body>
+</html>

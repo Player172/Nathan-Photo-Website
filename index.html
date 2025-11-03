@@ -2,11 +2,13 @@
 <html>
 <head>
 <style>
+    /* Index */  
     body{
         background-color: rgb(10,10,10);
         height: 100vh;
         margin: 0px;
         overflow: hidden;
+        font-family: "Rubik", sans-serif; 
     }
 
     .image {
@@ -22,9 +24,68 @@
     .image[data-status="active"] {
         display: block;
     }
+
+    /* Header */  
+    header {
+        position: fixed;
+        top: 30px;
+        left: 40px;
+        z-index: 1000;
+    }
+
+    .nav-stack {
+        position: relative;
+        width: fit-content;
+    }
+
+    .nav-btn {
+        padding: 8px 24px;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(20px);
+        border: 1.5px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50px;
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        display: block;
+    }
+
+    .nav-btn:hover {
+        background: rgba(255, 255, 255, 0.25);
+        border-color: rgba(255, 255, 255, 0.5);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .nav-btn:first-child {
+        position: relative;
+        z-index: 2;
+        width: fit-content;
+    }
+
+    .nav-btn:last-child {
+        position: absolute;
+        top: 0;
+        left: 20px;
+        z-index: 1;
+        transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .nav-stack:hover .nav-btn:last-child {
+        transform: translateX(90px);
+    }
 </style>
 </head>
 <body>
+
+<header>
+    <div class="nav-stack">
+        <a href="index.html" class="nav-btn">Home</a>
+        <a href="about.html" class="nav-btn">About</a>
+    </div>
+</header>
 
 <img class="image" data-index="0" data-status="inactive" src="images/photo1.JPEG"/>
 <img class="image" data-index="1" data-status="inactive" src="images/photo2.JPEG"/>
@@ -42,6 +103,7 @@
     const activate = (image, x, y) => {
         image.style.left = `${x}px`;
         image.style.top = `${y}px`;
+        image.style.zIndex = globalIndex;
 
         image.dataset.status = "active";
 
